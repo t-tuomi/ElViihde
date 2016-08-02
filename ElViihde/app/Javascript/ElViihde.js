@@ -2,21 +2,24 @@
 var ElViihde = {
 		
 		baseURL : "http://api.elisaviihde.fi/etvrecorder/",
-		DEBUG : 1
-		//xhttp: new XMLHttpRequest()
+		DEBUG : 1,
+		view: Array(),
+		depth: 0
 }
 
 ElViihde.initElViihde = function () {
 
 	ElViihde.debug("init started");
 	ElViihde.doLogin();
-	Elviihde.getReadyList
+	//Elviihde.getReadyList
+	view[depth] = new MenuView();
+	
 }
 
 ElViihde.doLogin = function () {
 	
-	this.loadUrl(this.baseURL + "/default.sl?username=" + Credentials.username + 
-			"&password=" + Credentials.password +
+	this.loadUrl(this.baseURL + "/default.sl?username=" + Credentials.getUsername() + 
+			"&password=" + Credentials.getPassword() +
 			"&ajax=true", this.processLogin);
 	
 }
