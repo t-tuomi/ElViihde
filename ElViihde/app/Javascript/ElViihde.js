@@ -3,7 +3,7 @@ var ElViihde = {
 		
 		baseURL : "http://api.elisaviihde.fi/etvrecorder/",
 		username : "XXXXXXX",
-		password : "XXXXXXX",
+		password : "XXXxxXXXX",
 		DEBUG : 1
 		//xhttp: new XMLHttpRequest()
 }
