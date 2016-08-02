@@ -2,8 +2,6 @@
 var ElViihde = {
 		
 		baseURL : "http://api.elisaviihde.fi/etvrecorder/",
-		username : "XXXXXXX",
-		password : "XXXxxXXXX",
 		DEBUG : 1
 		//xhttp: new XMLHttpRequest()
 }
@@ -17,7 +15,8 @@ ElViihde.initElViihde = function () {
 
 ElViihde.doLogin = function () {
 	
-	this.loadUrl(this.baseURL + "/default.sl?username=" + username + "&password=" + password +
+	this.loadUrl(this.baseURL + "/default.sl?username=" + Credentials.username + 
+			"&password=" + Credentials.password +
 			"&ajax=true", this.processLogin);
 	
 }
