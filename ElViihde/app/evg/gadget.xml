@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<gadget>
+	<name>Elisa Viihde</name>
+	<namespace>windows.sdk</namespace>
+	<version>1.0.2.0</version>
+	<author name="Elisa Oyj">
+		<info url="elisaviihde.fi" />
+		<logo src="logo.png" />
+	</author>
+	<copyright>&#169; 2009</copyright>
+	<description>Elisa Viihde Gadgetilla voit tutustua ohjelmatarjontaan, ajastaa ohjelmien tallennuksia ja katsoa jo valmiita tallenteita.</description>
+	<icons>
+		<icon height="48" width="48" src="icon.png" />
+	</icons>
+	<hosts>
+		<host name="sidebar">
+			<base type="HTML" apiVersion="1.0.0" src="gadget.html" />
+			<permissions>Full</permissions>
+			<platform minPlatformVersion="1.0" />
+			<defaultImage src="icon.png" />
+      <autoscaleDPI>true</autoscaleDPI>
+		</host>
+	</hosts>
+</gadget>

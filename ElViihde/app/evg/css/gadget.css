@@ -1,0 +1,173 @@
+body
+{
+	width: 128px;
+	height: 180px;
+	font-family: Segoe UI, Tahoma, Sans-Serif;
+}
+
+div#buttonGroup
+{
+	width: 128px;
+	margin: 44px 0px 0px 0px;
+	padding: 0;
+	border: 0;
+	float: left;
+}
+
+div#buttonGroup div.button
+{
+	margin: 0px 0px 3px 0px;
+	padding: 0;
+	border: 0;
+	text-align: center;
+}
+
+div#buttonGroup a.button
+{
+	margin: 0;
+	padding: 0;
+	color: #ffffff;
+	font-size: 13px;
+	position: relative;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+div#buttonGroup a.button:hover
+{
+	text-decoration: underline;
+}
+
+div#header
+{
+	position: absolute;
+	top: 4px;
+	left: 135px;
+	width: 118px;
+	height: 25px;
+	padding: 4px 2px 0px 2px;
+	color: #0b7dfa;
+	text-align: left;
+	overflow: hidden;
+	font-size: 12px;
+	font-weight: normal;
+	vertical-align: middle;
+}
+
+div#content
+{
+	position: absolute;
+	top: 32px;
+	left: 135px;
+	width: 118px;
+	height: 113px;
+	padding: 0px 0px 0px 0px;
+	overflow: hidden;
+}
+
+div#footer
+{
+	position: absolute;
+	top: 148px;
+	left: 135px;
+	width: 118px;
+	height: 25px;
+	padding: 2px 2px 2px 2px;
+	overflow: hidden;
+	color: #0b7dfa;
+	text-align: center;
+	font-size: 13px;
+	font-weight: normal;
+}
+
+div#content table
+{
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	border-collapse: collapse;
+}
+
+div#content table td
+{
+	vertical-align: top;
+	padding: 1px 2px 1px 2px;
+}
+
+div#content h1
+{
+	color: #0b7dfa;
+	font-size: 11px;
+	margin: 4px 0px 2px 1px;
+	padding: 0px 0px 0px 0px;
+}
+
+img#navigateBack
+{
+	float: left;
+}
+
+a#navigateBackLink
+{
+	float: left;
+	font-size: 11px;
+	text-decoration: underline;
+	color: #0b7dfa;
+}
+
+img#scrollUp
+{
+	float: right;
+}
+
+img#scrollDown
+{
+	float: right;
+}
+
+div#content a
+{
+	color: #0b7dfa;
+	text-decoration: none;
+}
+
+div#content a:hover
+{
+	color: #faa000;
+	text-decoration: underline;
+}
+
+div#content a.action
+{
+	background-image: url(/images/glyphs_right.png);
+	background-repeat: no-repeat;
+	background-position: -1 2;
+	padding-left: 9px;
+	text-decoration: underline;
+}
+
+div#content a.program
+{
+	color: #0b7dfa;
+	font-weight: bold;
+}
+
+div#content table.error
+{
+	height: 100%;
+	width: 100%;
+}
+
+div#content table.error td
+{
+	vertical-align: middle;
+	text-align: center;
+	color: #0b7dfa;
+	font-weight: bold;
+}
+
+div#content table.error td span
+{
+	font-size: 12px;
+}
+

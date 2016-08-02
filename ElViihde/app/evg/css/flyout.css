@@ -1,0 +1,239 @@
+body
+{
+	width: 186px;
+	height: 267px;
+	font-family: Segoe UI, Tahoma, Sans-Serif;
+}
+
+div#progress
+{
+	position: absolute;
+	left: 6px;
+	width: 172px;
+	top: 6px;
+	height: 251px;
+	background-color: #fff;
+	z-index: 100;
+	filter: alpha(opacity=75);
+	display: none;
+}
+
+div#progressIndicator
+{
+	position: absolute;
+	top: 120px;
+	left: 80px;
+	z-index: 101;
+	display: none;
+}
+
+div#header
+{
+	width: 100%;
+	position: absolute;
+	padding: 8px 0px 0px 9px;
+	height: 28px;
+	top: 0px;
+	font-size: 13px;
+	font-weight: normal;
+	color: #0b7dfa;
+	text-align: left;
+}
+
+div#content
+{
+	position: absolute;
+	height: 196px;
+	top: 34px;
+	padding: 0px 9px 0px 9px;
+	overflow: hidden;
+}
+
+div#content table
+{
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	border-collapse: collapse;
+}
+
+div#content table td
+{
+	vertical-align: top;
+	padding: 1px 2px 1px 2px;
+}
+
+div#content h1
+{
+	color: #0b7dfa;
+	font-size: 11px;
+	margin: 4px 0px 2px 1px;
+	padding: 0px 0px 0px 0px;
+}
+
+div#footer
+{
+	width: 100%;
+	position: absolute;
+	height: 28px;
+	top: 232px;
+	padding: 6px 9px 0px 9px;
+	font-size: 13px;
+	font-weight: normal;
+	color: #0b7dfa;
+	text-align: center;
+}
+
+img#navigateBack
+{
+	float: left;
+}
+
+a#navigateBackLink
+{
+	float: left;
+	font-size: 11px;
+	text-decoration: underline;
+	color: #0b7dfa;
+}
+
+img#scrollUp
+{
+	float: right;
+}
+
+img#scrollDown
+{
+	float: right;
+}
+
+div#content a
+{
+	color: #0b7dfa;
+	text-decoration: none;
+}
+
+div#content a:hover
+{
+	color: #faa000;
+	text-decoration: underline;
+}
+
+div#content a.action
+{
+	background-image: url(/images/glyphs_right.png);
+	background-repeat: no-repeat;
+	background-position: -1 2;
+	padding-left: 9px;
+	text-decoration: underline;
+}
+
+div#content a.channel
+{
+	color: #0b7dfa;
+	font-weight: bold;
+}
+
+div#content span.programsTitle
+{
+	color: #0b7dfa;
+	font-weight: bold;
+}
+
+div#content a.programsProgram
+{
+}
+
+div#content a.programsProgramRecorded
+{
+	color: #9f9;
+}
+
+div#content a.recording
+{
+	color: #0b7dfa;
+	font-weight: bold;
+}
+
+div#content a.readyFolder
+{
+	color: #0b7dfa;
+	font-weight: bold;
+	background-image: url(/images/folder.png);
+	background-repeat: no-repeat;
+	background-position: 0 2;
+	padding-left: 18px; 
+}
+
+div#content a.readyProgram
+{
+	color: #0b7dfa;
+	font-weight: bold;
+}
+
+div#content span.programTitle
+{
+	color: #0b7dfa;
+	font-weight: bold;
+}
+
+div#content span.programChannel
+{
+}
+
+div#content span.programShortText
+{
+}
+
+div#content span.programTime
+{
+}
+
+div#content span.programDuration
+{
+}
+
+div#content span.recordingsDescription
+{
+}
+
+div#content span.wildcardsDescription
+{
+}
+
+div#content span.wildcardTitle
+{
+	color: #0b7dfa;
+	font-weight: bold;
+}
+
+div#content span.wildcardChannel
+{
+}
+
+div#content span.wildcardFolder
+{
+}
+
+div#content span.wildcardAdded
+{
+}
+
+div#content table.error
+{
+	height: 100%;
+	width: 100%;
+}
+
+div#content table.error td
+{
+	vertical-align: middle;
+	text-align: center;
+	color: #0b7dfa;
+	font-weight: bold;
+}
+
+div#content table.error td span
+{
+	font-size: 13px;
+}

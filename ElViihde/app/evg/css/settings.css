@@ -1,0 +1,38 @@
+body
+{
+	width: 278px;
+	height: 160px;
+	font-family: Segoe UI, Tahoma;
+	font-size: 13px;
+}
+
+table
+{
+	font-family: Segoe UI, Tahoma;
+	font-size: 13px;
+}
+
+table td
+{
+	padding-right: 8px;
+}
+
+input, button, select
+{ 
+	font-family: Segoe UI, Tahoma;
+	font-size: 13px;
+}
+
+div#heading
+{
+	font-size: 13px;
+	margin: 4px 4px 8px 4px;
+}
+
+div#errorMessage
+{
+	font-size: 13px;
+	margin: 8px 4px 4px 4px;
+	color: #f00;
+	font-weight: bold;
+}
