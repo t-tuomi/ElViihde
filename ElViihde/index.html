@@ -3,11 +3,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Tutorial Video Widget</title>
 
-        <!-- Common widget API 
+        <!-- Common widget API --> 
         <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/Widget.js'></script>
         <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/TVKeyValue.js'></script>
         <script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/webapi/1.0/webapis.js"></script>
-               -->
+               
                
         <!-- Widget code -->
         <script language="javascript" type="text/javascript" src="app/Javascript/Main.js"></script>
@@ -43,9 +43,10 @@
                 
     </head>
 
-    <body onload="Main.onLoad();" onunload="Main.onUnload();">
+    <body onload="Main.onLoad();" onunload="Main.onUnload();">  
+     <!--    <body onload="ElViihde.initElViihde();" onunload="Main.onUnload();"> -->
         <!-- Dummy anchor as focus for key events -->
-        <a href='javascript:void(0);' id='anchor' onkeydown='Main.keyDown();'></a>
+        <a href='javascript:void(0);' id='anchor' onkeydown='elKeyHandler();'></a>
 
         <!-- Layout begins -->
         <div id="player_container"></div>

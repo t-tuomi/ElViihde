@@ -1,14 +1,3 @@
-//
-//function some_function(arg1, arg2, callback) {
-//
-//    var my_number = Math.ceil(Math.random() *
-//        (arg1 - arg2) + arg2);
-//    // then we're done, so we'll call the callback and
-//    // pass our result
-//    callback(my_number);
-//}
-//// call the function
-
 
 var elBaseURL = "http://api.elisaviihde.fi/etvrecorder/";
 var elViewArray = [];
@@ -19,8 +8,8 @@ function elInit() {
 	var url;
 	
     document.getElementById("anchor").focus();
-	//elVerifyLogin();
-	url = elBaseUrl + "ready.sl?readylist&ajax=true";
+	elVerifyLogin();
+	url = elBaseURL + "ready.sl?readylist&ajax=true";
 	elLoadUrl(url, function() {
 		elViewArray.push(new ElMenuView(this));
 		elCurrentView = elViewArray[elViewArray.length - 1];	
@@ -29,18 +18,42 @@ function elInit() {
 		
 }
 
+function elVerifyLogin() {
+	
+	var xhttp = new XMLHttpRequest();
+	
+	xhttp.open("GET", elBaseURL + "/default.sl?username=" + Credentials.getUsername() + 
+			"&password=" + Credentials.getPassword() +
+			"&ajax=true", false);
+	xhttp.send();
+	if (xhttp.responseText == "TRUE") {
+		console.log("login response true");
+		return true;
+	}
+	console.log("login response false");
+	return false;
+	
+}
+
 function ElMenuView(xhttp) {
 	
 	this.xhttp = xhttp;
 	var cursorPos = 0;
 	var menuIndex = 0;
 	var MAX_CUR_POS = 10;
+	var folder;
 	var itemArray = [];
 	
 	console.log(xhttp);
+	folder = eval( '(' + this.xhttp.responseText + ')' );
+	console.log(folder);
+	console.log(folder.ready_data[0].folders[1].name);
 	
 }
 
+function elKeyHandler() {
+	
+}
 function elLoadUrl(url, cfunc) {
 	console.log("here");
 	
@@ -61,9 +74,25 @@ function elLoadUrl(url, cfunc) {
 
 
 
+// ------------------------------------------------
+
+
+//
+//function some_function(arg1, arg2, callback) {
+//
+//  var my_number = Math.ceil(Math.random() *
+//      (arg1 - arg2) + arg2);
+//  // then we're done, so we'll call the callback and
+//  // pass our result
+//  callback(my_number);
+//}
+////call the function
+
+
+
 function start() {
 	
-	console.log("listissä");
+	//console.log("listissä");
 	
 	elInit();
 
@@ -76,14 +105,14 @@ function start() {
 	
 	
 	
-	var l = [];
-	
-	l.push(new List(1, 2));
-	l.push(new List(3, 4));
-	console.log(l[1].a);
-	l[1].a = 5;
-	console.log(l);
-	//console.log(baseURL);
+//	var l = [];
+//	
+//	l.push(new List(1, 2));
+//	l.push(new List(3, 4));
+//	console.log(l[1].a);
+//	l[1].a = 5;
+//	console.log(l);
+//	//console.log(baseURL);
 
 }
 

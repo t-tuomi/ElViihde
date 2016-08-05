@@ -16,7 +16,7 @@ var Main =
     NMUTE : 0,
     YMUTE : 1
 }
-
+1
 Main.onLoad = function()
 {
 	//alert("onload"); 
@@ -24,15 +24,17 @@ Main.onLoad = function()
 	//createVideoListTable();
 	//flyoutLoadReady();
 	
-	ElViihde.initElViihde();
+	//ElViihde.initElViihde();
 	
   // Enable key event processing
   //this.enableKeys();
-
+  //ElViihde.initElViihde();
+	start();
   //widgetAPI.sendReadyEvent();    
 }
 
 window.onShow = function() {
+	ElViihde.debug("ONSHOW");
   if ( Player.init() && Audio.init() && Display.init() && Server.init() )
   {
       Display.setVolume( Audio.getVolume() );
@@ -53,6 +55,7 @@ window.onShow = function() {
               Main.updateCurrentVideo();
           }
       Server.fetchVideoList(); /* Request video information from server */  
+      alert("FOOFOO");
   }
   else
   {
@@ -81,12 +84,10 @@ Main.enableKeys = function()
 
 Main.keyDown = function()
 {
+	//return;
     var keyCode = event.keyCode;
-    //alert("Key pressed: " + keyCode);
+    alert("Key pressed: " + keyCode);
     
-    vli++;
-    populateVideoList();
-    return;
     
     switch(keyCode)
     {
