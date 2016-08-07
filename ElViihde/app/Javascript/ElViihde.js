@@ -2,7 +2,7 @@
 var elBaseURL = "http://api.elisaviihde.fi/etvrecorder/";
 var elViewArray = new Array();
 var elCurrentView;
-var nrOfTableRows = 13 - 1;
+var nrOfTableRows = 11; // max index value actually..
 
 function elInit() {
 
@@ -10,17 +10,17 @@ function elInit() {
 	
     document.getElementById("anchor").focus();
 	elVerifyLogin();
-	url = elBaseURL + "ready.sl?readylist&ajax=true";
+	url = elBaseURL + "ready.sl?readylist&folderid=&ajax=true";
 	elLoadUrl(url, function() {
 		//tt = new ElMenuView(this);
 		elViewArray.push(Object.create(ElMenuView));
 		elCurrentView = elViewArray[elViewArray.length - 1];
-		elCurrentView.init(this);
+		elCurrentView.init(this.xhttp);
 		//console.log(tt);
-		//console.log("and here 3");
+		console.log("and here 3");
 		//elCurrentView.drawMenu();
 		//console.log(elViewArray);
-	});
+	}, null);
 	//elDrawMenu();
 		
 }
@@ -48,6 +48,7 @@ function elVerifyLogin() {
 
 function elKeyHandler() {
 	var keyCode = event.keyCode;
+	var url;
 	//var table = document.getElementById("vlt");
     console.log("Key pressed: " + keyCode);
     
@@ -60,7 +61,42 @@ function elKeyHandler() {
     case 38:
     	elCurrentView.keyUp();
     	break;
+    	
+    case 13:
+    	console.log("enter");
+    	if (elCurrentView.isFolder()) {
+    		elCurrentView.clearMenu();
+    		url = elBaseURL + "ready.sl?readylist&folderid=" + 
+    			elCurrentView.itemArray[elCurrentView.itemArrayIndex].id + "&ajax=true";
+    		elLoadUrl(url, function() {  
+    			console.log("and here 4");
+    			elCurrentView.resetCursorBg();
+    			elViewArray.push(Object.create(ElMenuView));
+    			elCurrentView = elViewArray[elViewArray.length - 1];
+    			elCurrentView.init(this.xhttp);
+    			console.log("SUBFOLDER:");
+    			console.log(elCurrentView);
+    		}, null);
+    	} else {
+    		//player.play)();
+    		console.log("PLAY");
+    		console.log(elCurrentView);
+    		console.log(elCurrentView.itemArray[elCurrentView.itemArrayIndex].program_info.url);
+    	}
+    	break;
+    	
+    case 65:
+    	console.log("return");
+    	if (elViewArray.length > 1) {
+    		elViewArray.pop();
+    		elCurrentView = elViewArray[elViewArray.length - 1];
+    		elCurrentView.drawMenu();
+    	} else {
+    		console.log("exit app....");
+    	}
     }
+    
+    
     
 //    switch(keyCode)
 //    {
@@ -157,14 +193,14 @@ function elKeyHandler() {
 
 
 
-function elLoadUrl(url, cfunc) {
-	console.log("here");
+function elLoadUrl(url, cfunc, cdata) {
+	//console.log("here");
 	
     var xhttp;
     xhttp=new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            cfunc.call(xhttp);
+            cfunc.call({"xhttp" : xhttp, "cdata" : cdata});
         }
     };
     xhttp.open("GET", url, true);

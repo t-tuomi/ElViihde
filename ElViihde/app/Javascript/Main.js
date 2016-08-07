@@ -16,7 +16,7 @@ var Main =
     NMUTE : 0,
     YMUTE : 1
 }
-1
+
 Main.onLoad = function()
 {
 	//alert("onload"); 
@@ -29,7 +29,7 @@ Main.onLoad = function()
   // Enable key event processing
   //this.enableKeys();
   //ElViihde.initElViihde();
-	start();
+	elInit();
   //widgetAPI.sendReadyEvent();    
 }
 
