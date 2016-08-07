@@ -2,7 +2,10 @@
 var elBaseURL = "http://api.elisaviihde.fi/etvrecorder/";
 var elViewArray = [];
 var elCurrentView;
-	
+var nrOfTableRows = 13 - 1;
+
+var tt;
+
 function elInit() {
 
 	var url;
@@ -11,16 +14,23 @@ function elInit() {
 	elVerifyLogin();
 	url = elBaseURL + "ready.sl?readylist&ajax=true";
 	elLoadUrl(url, function() {
+		//tt = new ElMenuView(this);
 		elViewArray.push(new ElMenuView(this));
-		elCurrentView = elViewArray[elViewArray.length - 1];	
-		console.log("and here 3");
+		elCurrentView = elViewArray[elViewArray.length - 1];
+		//console.log(tt);
+		//console.log("and here 3");
+		elCurrentView.drawMenu();
+		//console.log(elViewArray);
 	});
+	//elDrawMenu();
 		
 }
 
 function elVerifyLogin() {
 	
 	var xhttp = new XMLHttpRequest();
+	
+	// async = false tässä, kun menee muuten niin hankalaks eikä pitäis kauaa mennä haussa
 	
 	xhttp.open("GET", elBaseURL + "/default.sl?username=" + Credentials.getUsername() + 
 			"&password=" + Credentials.getPassword() +
@@ -35,25 +45,199 @@ function elVerifyLogin() {
 	
 }
 
+
+// -------------------------------------------------
+
 function ElMenuView(xhttp) {
 	
 	this.xhttp = xhttp;
-	var cursorPos = 0;
-	var menuIndex = 0;
-	var MAX_CUR_POS = 10;
-	var folder;
-	var itemArray = [];
+	this.cursorPos = 0;
+	this.itemArrayIndex = 0;
+	this.folder = eval( '(' + this.xhttp.responseText + ')' );
+	this.itemArray = [];
+	this.maxCurPos;
 	
-	console.log(xhttp);
-	folder = eval( '(' + this.xhttp.responseText + ')' );
-	console.log(folder);
-	console.log(folder.ready_data[0].folders[1].name);
+	//console.log(xhttp);
+	console.log(this.folder);
+	//console.log(folder.ready_data[0].folders[1].name);
 	
+	this.itemArray = this.folder.ready_data[0].folders.concat(this.folder.ready_data[0].recordings);
+	this.maxCurPos = nrOfTableRows > this.itemArray.length - 1 ? this.itemArray.lenght - 1 : nrOfTableRows;
+	console.log("maxcurpos: " + this.maxCurPos);
+	
+	function keyDown() {
+		console.log("key down");
+    	
+    	console.log(this.cursorPos + " -- " + this.maxCurPos + " -- " + this.itemArrayIndex);
+    	table.rows[this.cursorPos].cells[0].style.backgroundColor = "black";
+    	if (this.cursorPos < this.maxCurPos - 1) {
+    		console.log("joo on");
+    		this.cursorPos++;
+    		this.itemArrayIndex++;
+    	} else {
+    		if (this.itemArrayIndex < this.itemArray.length - 1) {
+    			this.itemArrayIndex++;
+    			this.drawMenu(); 
+    		}
+    	}
+    	
+    	table.rows[this.cursorPos].cells[0].style.backgroundColor = "grey";
+    	
+	}
+	
+	function keyUp() {
+		console.log("key up");
+   
+    	console.log(this.cursorPos + " -- " + this.maxCurPos + " -- " + this.itemArrayIndex);
+    	table.rows[this.cursorPos].cells[0].style.backgroundColor = "black";
+    	if (this.cursorPos > 0) {
+    		console.log("joo on > 0");
+    		this.cursorPos--;
+    		this.itemArrayIndex--;
+    	} else {
+    		if (this.itemArrayIndex < 0) {
+    			this.itemArrayIndex--;
+    			this.drawMenu(); 
+    		}
+    	}
+    	table.rows[this.cursorPos].cells[0].style.backgroundColor = "grey";  	
+	}
+	
+	
+	
+	function drawMenu() {
+		var table = document.getElementById("vlt");
+		//table.rows[2].cells[0].innerHTML = "foooff";
+		var i;
+		console.log("elCurrentView:");
+		console.log(this);
+		//for (i = elCurrentView.itemArrayIndex - elCurrentView.cursorPos; i < elCurrentView.itemArrayIndex + nrOfTableRows; i++) {
+		for (i = 0; i < nrOfTableRows; i++) {
+			if (i + this.itemArrayIndex < this.itemArray.length) {
+				table.rows[i].cells[0].innerHTML = this.itemArray[i + this.itemArrayIndex].name;
+			} else {
+				table.rows[i].cells[0].innerHTML = "";
+			}
+			//console.log(table.rows[i].cells[0].innerHTML);
+		}
+		table.rows[this.cursorPos].cells[0].style.backgroundColor = "grey";
+
+	}
 }
 
+
+
 function elKeyHandler() {
-	
+	var keyCode = event.keyCode;
+	//var table = document.getElementById("vlt");
+    console.log("Key pressed: " + keyCode);
+    
+    switch(keyCode) {
+    
+    case 40:
+    	elCurrentView.keyDown();
+    	break;
+    
+    case 38:
+    	elCurrentView.keyUp();
+    	break;
+    }
+    
+//    switch(keyCode)
+//    {
+//	    case tvKey.KEY_RED:
+//	    	 sf.service.setScreenSaver(true);
+//	    	break;
+//	    case tvKey.KEY_GREEN:
+//	    	 sf.service.setScreenSaver(true, 100);
+//	       	break;
+//	    case tvKey.KEY_YELLOW:
+//	    	sf.service.AVSetting.show(function asd(){
+//				Main.enableKeys();
+//	    	});
+//	    	
+//	    	 break;
+//	    case tvKey.KEY_BLUE:
+//	    	sf.service.AVSetting.hide();
+//	    	break;
+//	    case tvKey.KEY_RETURN:
+//        case tvKey.KEY_PANEL_RETURN:
+//            alert("RETURN");
+//            Player.stopVideo();
+//            widgetAPI.sendReturnEvent(); 
+//            break;    
+//            break;
+//    
+//        case tvKey.KEY_PLAY:
+//            alert("PLAY");
+//            
+//            this.handlePlayKey();
+//            break;
+//            
+//        case tvKey.KEY_STOP:
+//            alert("STOP");
+//            Player.stopVideo();
+//            break;
+//            
+//        case tvKey.KEY_PAUSE:
+//            alert("PAUSE");
+//            this.handlePauseKey();
+//            break;
+//            
+//        case tvKey.KEY_FF:
+//            alert("FF");
+//            if(Player.getState() != Player.PAUSED)
+//                Player.skipForwardVideo();
+//            break;
+//        
+//        case tvKey.KEY_RW:
+//            alert("RW");
+//            if(Player.getState() != Player.PAUSED)
+//                Player.skipBackwardVideo();
+//            break;
+//
+//        case tvKey.KEY_VOL_UP:
+//        case tvKey.KEY_PANEL_VOL_UP:
+//            alert("VOL_UP");
+//            if(this.mute == 0)
+//                Audio.setRelativeVolume(0);
+//            break;
+//            
+//        case tvKey.KEY_VOL_DOWN:
+//        case tvKey.KEY_PANEL_VOL_DOWN:
+//            alert("VOL_DOWN");
+//            if(this.mute == 0)
+//                Audio.setRelativeVolume(1);
+//            break;      
+//
+//        case tvKey.KEY_DOWN:
+//            alert("DOWN");
+//            break;
+//            
+//        case tvKey.KEY_UP:
+//            alert("UP");
+//            break;            
+//
+//        case tvKey.KEY_ENTER:
+//        case tvKey.KEY_PANEL_ENTER:
+//            alert("ENTER");
+//            if(Player.getState() == Player.PLAYING)
+//              this.toggleMode();
+//            break;
+//        
+//        case tvKey.KEY_MUTE:
+//            alert("MUTE");
+//            this.muteMode();
+//            break;
+//            
+//        default:
+//            alert("Unhandled key");
+//            break;
+//    }
 }
+
+
+
 function elLoadUrl(url, cfunc) {
 	console.log("here");
 	
