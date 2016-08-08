@@ -8,7 +8,10 @@ function elInit() {
 
 	var url;
 	
-    document.getElementById("anchor").focus();
+	Audio.init();
+	Player.init();
+	widgetAPI.sendReadyEvent(); 
+	document.getElementById("anchor").focus();
 	elVerifyLogin();
 	url = elBaseURL + "ready.sl?readylist&folderid=&ajax=true";
 	elLoadUrl(url, function() {
@@ -55,14 +58,17 @@ function elKeyHandler() {
     switch(keyCode) {
     
     case 40:
+    case tvKey.KEY_DOWN:
     	elCurrentView.keyDown();
     	break;
     
     case 38:
+    case tvKey.KEY_UP:
     	elCurrentView.keyUp();
     	break;
     	
     case 13:
+    case tvKey.KEY_PLAY:
     	console.log("enter");
     	if (elCurrentView.isFolder()) {
     		elCurrentView.clearMenu();
@@ -82,18 +88,39 @@ function elKeyHandler() {
     		console.log("PLAY");
     		console.log(elCurrentView);
     		console.log(elCurrentView.itemArray[elCurrentView.itemArrayIndex].program_info.url);
+  
+    		Player.setVideoURL(elCurrentView.itemArray[elCurrentView.itemArrayIndex].program_info.url);
+    		
+    		Player.playVideo();
     	}
     	break;
     	
+    case 66:
+    case tvKey.KEY_STOP:
+    	Player.stopVideo();
+    	break;
+    	
     case 65:
+    case tvKey.KEY_BLUE:
     	console.log("return");
     	if (elViewArray.length > 1) {
+    		elCurrentView.resetCursorBg();
     		elViewArray.pop();
     		elCurrentView = elViewArray[elViewArray.length - 1];
     		elCurrentView.drawMenu();
     	} else {
     		console.log("exit app....");
     	}
+    	break;
+    	
+	   case tvKey.KEY_RETURN:
+      case tvKey.KEY_PANEL_RETURN:
+          alert("RETURN");
+          Player.stopVideo();
+          widgetAPI.sendReturnEvent(); 
+          break;    
+          break;
+
     }
     
     

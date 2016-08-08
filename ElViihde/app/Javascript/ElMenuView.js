@@ -17,7 +17,7 @@ var ElMenuView = {
 			
 			//console.log(xhttp);
 			//console.log(folder.ready_data[0].folders[1].name);
-			for (i = 0; i < folder.ready_data[0].recordings.length - 1; i++) {
+			for (i = 0; i < folder.ready_data[0].recordings.length; i++) {
 				url = elBaseURL + "program.sl?programid=" +
 					folder.ready_data[0].recordings[i].program_id +
 					"&ajax=true";
@@ -48,7 +48,7 @@ var ElMenuView = {
 		keyDown : function () {
 				//console.log("key down");
 		    	
-		    	console.log(this.cursorPos + " -- " + this.maxCurPos + " -- " + this.itemArrayIndex);
+		    	//console.log(this.cursorPos + " -- " + this.maxCurPos + " -- " + this.itemArrayIndex);
 		    	this.resetCursorBg();
 		    	if (this.cursorPos < this.maxCurPos) {
 		    		//console.log("joo on");
@@ -85,12 +85,6 @@ var ElMenuView = {
 		    	this.showDescription();
 			},
 			
-		decodeHtml : function(html) {
-			    var txt = document.createElement("textarea");
-			    txt.innerHTML = html;
-			    console.log("TEXT=" + txt.value);
-			    return txt.value; 
-			},
 			
 		showDescription : function () {
 			if (!this.isFolder()) {
@@ -128,16 +122,17 @@ var ElMenuView = {
 				//console.log("elCurrentView:");
 				//console.log(this);
 				//for (i = elCurrentView.itemArrayIndex - elCurrentView.cursorPos; i < elCurrentView.itemArrayIndex + nrOfTableRows; i++) {
-				for (i = 0; i < nrOfTableRows; i++) {
+				for (i = 0; i <= nrOfTableRows; i++) {
 					if (i + this.itemArrayIndex - this.cursorPos < this.itemArray.length) {
 						this.table.rows[i].cells[0].innerHTML = 
-							this.decodeHtml(this.itemArray[i + this.itemArrayIndex - this.cursorPos].name);
+							decodeURIComponent(this.itemArray[i + this.itemArrayIndex - 
+							                                  this.cursorPos].name);
 					} else {
-						this.table.rows[i].cells[0].innerHTML = "tyhjää";
+						this.table.rows[i].cells[0].innerHTML = "";
 					}
 					//console.log(table.rows[i].cells[0].innerHTML);
 				}
-				this.table.rows[this.cursorPos].cells[0].style.backgroundColor = "grey";
+				this.setCursorBg();
 				this.showDescription();
 			},
 			

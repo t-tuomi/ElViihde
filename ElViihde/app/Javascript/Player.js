@@ -156,8 +156,8 @@ Player.playVideo = function()
         
         try{
 			//jQuery('#player_container').addClass('show'); //화면상에 player_container(스크린이라고 생각) 나타냄 
-        	//Player.AVPlayer.open(this.url); 
-        	Player.AVPlayer.open('http://netpvrstp.cdn.elisaviihde.fi/stream.php?id=1681165&uid=XO2obpSpdfdpAOJviYLsoE4nm');
+        	Player.AVPlayer.open(this.url); 
+        	// tt - Player.AVPlayer.open('http://netpvrstp.cdn.elisaviihde.fi/stream.php?id=1681165&uid=XO2obpSpdfdpAOJviYLsoE4nm');
         	Player.AVPlayer.play(Player.onSuccess, Player.onError); // 콘텐츠 재생
 			//index_saver = content_index; //현재 재생한 영상의 index를 기억하게 하기위해 변수 index_saver에 할당
 			

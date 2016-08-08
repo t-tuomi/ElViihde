@@ -1,5 +1,5 @@
-//var widgetAPI = new Common.API.Widget();
-//var tvKey = new Common.API.TVKeyValue();
+var widgetAPI = new Common.API.Widget();
+var tvKey = new Common.API.TVKeyValue();
 
 var Main =
 {
@@ -34,7 +34,7 @@ Main.onLoad = function()
 }
 
 window.onShow = function() {
-	ElViihde.debug("ONSHOW");
+	alert("ONSHOW");
   if ( Player.init() && Audio.init() && Display.init() && Server.init() )
   {
       Display.setVolume( Audio.getVolume() );
