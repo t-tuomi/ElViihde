@@ -5,6 +5,7 @@ var Player =
     skipState : -1,
     stopCallback : null,    /* Callback function to be set by client */
     originalSource : null,
+    time : null,
     
     STOPPED : 0,
     PLAYING : 1,
@@ -48,7 +49,7 @@ var playCB = {
 Player.init = function()
 {
     var success = true;
-    alert("success vale :  " + success);    
+    //alert("success vale :  " + success);    
     this.state = this.STOPPED;
     try{
 		var playerInstance = webapis.avplay;
@@ -80,7 +81,8 @@ Player.onAVPlayObtained = function(avplay) {
 		  width: 960,
 		  height: 540
 		},
-		autoRatio: true, 
+		autoRatio: false, 
+		// oli autoratio: true,
 	});
 	console.log(Player.AVPlayer);
 	//Display.hide();
@@ -127,6 +129,7 @@ Player.setFullscreen = function()
 		width: 960,
 		height: 540
 	});
+	Player.AVPlayer.setDisplayArea({top:0, left:0, width:960, height:540});
 };
 
 Player.setVideoURL = function(url)
@@ -156,6 +159,8 @@ Player.playVideo = function()
         
         try{
 			//jQuery('#player_container').addClass('show'); //화면상에 player_container(스크린이라고 생각) 나타냄 
+        	//Player.AVPlayer.setDisplayRect({top:0, left:0, width:960, height:540});
+        	//Player.AVPlayer.setDisplayArea({top:0, left:0, width:960, height:540});
         	Player.AVPlayer.open(this.url); 
         	// tt - Player.AVPlayer.open('http://netpvrstp.cdn.elisaviihde.fi/stream.php?id=1681165&uid=XO2obpSpdfdpAOJviYLsoE4nm');
         	Player.AVPlayer.play(Player.onSuccess, Player.onError); // 콘텐츠 재생
@@ -169,6 +174,10 @@ Player.playVideo = function()
     }
 }
 
+Player.setResumePoint = function (secs) {
+	//this.skipState = this.FORWARD;
+	Player.AVPlayer.jumpForward(secs);
+}
 Player.pauseVideo = function()
 {
     this.state = this.PAUSED;
@@ -218,16 +227,16 @@ Player.resumeVideo = function()
     Player.AVPlayer.resume();
 }
 
-Player.skipForwardVideo = function()
+Player.skipForwardVideo = function(sec)
 {
     this.skipState = this.FORWARD;  
-    Player.AVPlayer.jumpForward(5);
+    Player.AVPlayer.jumpForward(sec);
 }
 
-Player.skipBackwardVideo = function()
+Player.skipBackwardVideo = function(sec)
 {
     this.skipState = this.REWIND;
-    Player.AVPlayer.jumpBackward(5);
+    Player.AVPlayer.jumpBackward(sec);
 }
 
 Player.getState = function()
@@ -270,10 +279,16 @@ Player.onBufferingComplete = function()
             document.getElementById("rewind").style.opacity = '1.0';
             break;
     }
+    
+	console.log(" --- resume goes here...");
+	alert("***** resume = " + Resume.getResumePoint());
+	Player.setResumePoint(Resume.getResumePoint());
+	
 }
 
 Player.setCurTime = function(time)
 {
+	this.time = time;
 	Display.setTime(time);
 }
 

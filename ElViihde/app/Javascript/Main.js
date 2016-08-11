@@ -1,5 +1,7 @@
-var widgetAPI = new Common.API.Widget();
-var tvKey = new Common.API.TVKeyValue();
+
+var REAL = 1;
+if (REAL) var widgetAPI = new Common.API.Widget();
+if (REAL) var tvKey = new Common.API.TVKeyValue();
 
 var Main =
 {
@@ -30,6 +32,7 @@ Main.onLoad = function()
   //this.enableKeys();
   //ElViihde.initElViihde();
 	elInit();
+	//Resume.init();
   //widgetAPI.sendReadyEvent();    
 }
 
@@ -66,6 +69,8 @@ window.onShow = function() {
 Main.onUnload = function()
 {
     Player.deinit();
+    Resume.writeFile();
+    Resume.closeFile();
 }
 
 Main.updateCurrentVideo = function(move)

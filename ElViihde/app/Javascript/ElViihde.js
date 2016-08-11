@@ -4,13 +4,27 @@ var elViewArray = new Array();
 var elCurrentView;
 var nrOfTableRows = 11; // max index value actually..
 
+if (!REAL) {
+	var tvKey = new Object();
+	tvKey.KEY_DOWN = 40;
+	tvKey.KEY_UP = 38;
+	tvKey.KEY_PLAY = 13;
+	tvKey.KEY_STOP = 66;
+	tvKey.KEY_RETURN = 65;
+	tvKey.KEY_RETURN = 67;
+	tvKey_KEY_PANEL_RETURN = 68;
+}
+
 function elInit() {
 
 	var url;
 	
-	Audio.init();
-	Player.init();
-	widgetAPI.sendReadyEvent(); 
+	if (REAL) {
+		Audio.init();
+		Player.init();
+		Resume.init();
+		widgetAPI.sendReadyEvent(); 		
+	}
 	document.getElementById("anchor").focus();
 	elVerifyLogin();
 	url = elBaseURL + "ready.sl?readylist&folderid=&ajax=true";
@@ -48,78 +62,139 @@ function elVerifyLogin() {
 }
 
 
+function elPlay (url) {
+	//var resume = 0;
+	
+	console.log("PLAY");
+	console.log(elCurrentView);
+	console.log(url);
+
+	Player.setVideoURL(url);
+	//Player.AVPlayer.setDisplayArea({top:0, left:0, width:960, height:540});
+	Player.playVideo();
+	Resume.loadResumePoint(elCurrentView.itemArray[elCurrentView.itemArrayIndex].id);
+	//Main.setFullScreenMode();
+}
+
+function elHandleEnter() {
+	
+	console.log("enter");
+	var url;
+	
+	switch(Player.getState()) {
+	
+	case Player.STOPPED:
+		if (elCurrentView.isFolder()) {
+			elCurrentView.clearMenu();
+			url = elBaseURL + "ready.sl?readylist&folderid=" + 
+				elCurrentView.itemArray[elCurrentView.itemArrayIndex].id + "&ajax=true";
+			elLoadUrl(url, function() {  
+				console.log("and here 4");
+				elCurrentView.resetCursorBg();
+				elViewArray.push(Object.create(ElMenuView));
+				elCurrentView = elViewArray[elViewArray.length - 1];
+				elCurrentView.init(this.xhttp);
+				console.log("SUBFOLDER:");
+				console.log(elCurrentView);
+			}, null);
+		} else {
+			elPlay(elCurrentView.itemArray[elCurrentView.itemArrayIndex].program_info.url);
+		}
+		break;
+		
+	case Player.PLAYING:
+		// pause
+		break;
+		
+	case Player.PAUSED:
+		// resume playing
+		break;
+		
+	}
+	
+
+}
+
+function elStoreResumePoint() {
+	
+	var id = elCurrentView.itemArray[elCurrentView.itemArrayIndex].id;
+	var time = Player.time.millisecond;
+	
+	if (id && time) {
+		Resume.storeResumePoint(id, time);
+		Resume.writeFile();
+	}
+}
 
 function elKeyHandler() {
 	var keyCode = event.keyCode;
-	var url;
+	//var url;
 	//var table = document.getElementById("vlt");
     console.log("Key pressed: " + keyCode);
-    
+
     switch(keyCode) {
     
-    case 40:
     case tvKey.KEY_DOWN:
     	elCurrentView.keyDown();
     	break;
     
-    case 38:
     case tvKey.KEY_UP:
     	elCurrentView.keyUp();
     	break;
     	
-    case 13:
-    case tvKey.KEY_PLAY:
+    case tvKey.KEY_ENTER:
     	console.log("enter");
-    	if (elCurrentView.isFolder()) {
-    		elCurrentView.clearMenu();
-    		url = elBaseURL + "ready.sl?readylist&folderid=" + 
-    			elCurrentView.itemArray[elCurrentView.itemArrayIndex].id + "&ajax=true";
-    		elLoadUrl(url, function() {  
-    			console.log("and here 4");
-    			elCurrentView.resetCursorBg();
-    			elViewArray.push(Object.create(ElMenuView));
-    			elCurrentView = elViewArray[elViewArray.length - 1];
-    			elCurrentView.init(this.xhttp);
-    			console.log("SUBFOLDER:");
-    			console.log(elCurrentView);
-    		}, null);
-    	} else {
-    		//player.play)();
-    		console.log("PLAY");
-    		console.log(elCurrentView);
-    		console.log(elCurrentView.itemArray[elCurrentView.itemArrayIndex].program_info.url);
-  
-    		Player.setVideoURL(elCurrentView.itemArray[elCurrentView.itemArrayIndex].program_info.url);
-    		
-    		Player.playVideo();
-    	}
+    	elHandleEnter();
     	break;
     	
-    case 66:
     case tvKey.KEY_STOP:
+
+    	elStoreResumePoint();
     	Player.stopVideo();
+    	Main.setWindowMode();
     	break;
     	
-    case 65:
     case tvKey.KEY_BLUE:
-    	console.log("return");
-    	if (elViewArray.length > 1) {
-    		elCurrentView.resetCursorBg();
-    		elViewArray.pop();
-    		elCurrentView = elViewArray[elViewArray.length - 1];
-    		elCurrentView.drawMenu();
-    	} else {
-    		console.log("exit app....");
-    	}
     	break;
     	
 	   case tvKey.KEY_RETURN:
       case tvKey.KEY_PANEL_RETURN:
           alert("RETURN");
+          elStoreResumePoint();
+          //Resume.writeFile();
+          Resume.closeFile();
           Player.stopVideo();
           widgetAPI.sendReturnEvent(); 
           break;    
           break;
+          
+      case tvKey.KEY_RIGHT:
+    	  if (Player.getState() == Player.PLAYING) {
+    		  Player.skipForwardVideo(60);
+    	  }
+    	  break;
+    	  
+      case tvKey.KEY_LEFT:
+    	  if (Player.getState() == Player.PLAYING) {
+    		  Player.skipBackwardVideo(40);
+    	  } else {
+    		  if (Player.getState() == Player.STOPPED) {
+    		    	console.log("return");
+    		    	if (elViewArray.length > 1) {
+    		    		elCurrentView.resetCursorBg();
+    		    		elViewArray.pop();
+    		    		elCurrentView = elViewArray[elViewArray.length - 1];
+    		    		elCurrentView.drawMenu();
+    		    	} 
+    			  
+    		  }
+    	  }
+    	  break;	
+    	  
+      case tvKey.KEY_INFO :
+    	  if(Player.getState() == Player.PLAYING)
+              Main.toggleMode();
+            break;
 
     }
     
